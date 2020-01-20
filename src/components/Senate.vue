@@ -38,7 +38,7 @@
             </label>
           </li>
 
-          <!-- <li class="px-4 dropdown active ml-auto">
+          <li class="px-4 dropdown active ml-auto">
             <select
               id="statesMenu"
               class="custom-select pre-scrollable m-0"
@@ -53,7 +53,7 @@
                 >{{ state }}</option
               >
             </select>
-          </li> -->
+          </li>
         </ul>
       </div>
 
@@ -72,7 +72,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="member in getMembers" v-bind:key="member.id">
+            <tr v-for="member in filterMembers" v-bind:key="member.id">
               <td class="text-center">
                 <a v-bind:href="member.url">
                   {{ member.first_name }} {{ member.middle_name }}
@@ -173,18 +173,13 @@ export default {
     }
   },
 
-  /* computed: {
-    members() {
-      return this.$store.state.members;
-    }
-  },
- */
   mounted() {
     this.$store.dispatch("getData");
   },
 
   created() {
-    //  this.states(this.$store.getters.getMembers);
+    this.members = this.$store.getters.getMembers;
+    this.states(this.members);
   }
 };
 </script>
