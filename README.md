@@ -1,4 +1,4 @@
-# vuex-tgif2
+# vuex-tgif
 
 ## Project setup
 ```
