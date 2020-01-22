@@ -84,25 +84,28 @@
               <td class="text-center">{{ member.seniority }}</td>
               <td class="text-center">{{ member.votes_with_party_pct }}%</td>
             </tr>
-            <!-- <tr v-if="filterMembers.length == 0">
+            <tr v-if="filterMembers.length == 0">
               <td colspan="5" class="text-center p-3 font-weight-bold">
                 No data matches that criteria
               </td>
-            </tr> -->
+            </tr>
           </tbody>
         </table>
-
-        <div id="loader" class="sk-cube-grid">
-          <div class="sk-cube sk-cube1"></div>
-          <div class="sk-cube sk-cube2"></div>
-          <div class="sk-cube sk-cube3"></div>
-          <div class="sk-cube sk-cube4"></div>
-          <div class="sk-cube sk-cube5"></div>
-          <div class="sk-cube sk-cube6"></div>
-          <div class="sk-cube sk-cube7"></div>
-          <div class="sk-cube sk-cube8"></div>
-          <div class="sk-cube sk-cube9"></div>
-        </div>
+      </div>
+      <div
+        id="loader"
+        class="sk-cube-grid"
+        v-bind:class="{ 'd-none': alternate }"
+      >
+        <div class="sk-cube sk-cube1"></div>
+        <div class="sk-cube sk-cube2"></div>
+        <div class="sk-cube sk-cube3"></div>
+        <div class="sk-cube sk-cube4"></div>
+        <div class="sk-cube sk-cube5"></div>
+        <div class="sk-cube sk-cube6"></div>
+        <div class="sk-cube sk-cube7"></div>
+        <div class="sk-cube sk-cube8"></div>
+        <div class="sk-cube sk-cube9"></div>
       </div>
     </div>
     <app-footer></app-footer>
@@ -121,8 +124,6 @@ export default {
 
   data() {
     return {
-      members: [],
-
       partyFilter: [
         { name: "Democrats", value: "D" },
         { name: "Republicans", value: "R" },
@@ -130,29 +131,21 @@ export default {
       ],
       checkedFilters: ["D", "R", "I"],
 
-      allStates: [],
       selectedState: "All States",
 
-      alternate: true
+      alternate: false
     };
   },
 
-  methods: {
-    states: function(array) {
-      array.forEach((element) => {
-        if (this.allStates.includes(element.state) == false) {
-          this.allStates.push(element.state);
-          this.allStates.sort();
-        }
-      });
-      this.allStates.unshift("All States");
-      this.alternate = !this.alternate;
-    }
-  },
+  methods: {},
 
   computed: {
-    getMembers() {
+    members() {
       return this.$store.getters.getMembers;
+    },
+
+    allStates() {
+      return this.$store.getters.getStates;
     },
 
     filterMembers() {
@@ -177,10 +170,7 @@ export default {
     this.$store.dispatch("getData");
   },
 
-  created() {
-    this.members = this.$store.getters.getMembers;
-    this.states(this.members);
-  }
+  created() {}
 };
 </script>
 
@@ -195,5 +185,11 @@ table a:hover {
   text-decoration: none;
   transition: all 0.3s;
   color: #0056b3;
+}
+
+.sk-cube-grid {
+  width: 40px;
+  height: 40px;
+  margin: 100px auto;
 }
 </style>
